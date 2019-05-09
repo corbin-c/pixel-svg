@@ -1,0 +1,100 @@
+*
+{
+	font-family: Sans;
+	margin: 0;
+	padding: 0;
+	font-family: Sans;
+	box-sizing: border-box;
+}
+body
+{
+	width: 100%;
+}
+
+img, svg
+{
+	position: absolute;
+}
+img
+{
+	opacity: 0;
+}
+svg
+{
+	z-index: 8;
+	opacity: 1;
+}
+#main_view:hover svg
+{
+	opacity:0;
+}
+#main_view:hover img
+{
+	opacity:1;
+}
+#mainform
+{
+	width: 40%;
+	position: absolute;
+	right: 1%;
+	top: 1%;
+	border: 1px dotted black;
+	padding: 5px;	
+}
+#mainform input, #mainform input
+{
+	width: calc(100% - 10px);
+	display: block;
+	padding: 5px;
+	margin: 5px;
+}
+#mainform button
+{
+	padding: 5px;
+	margin: 5px;
+}
+input[type=file]
+{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.f_label
+{
+	display: inline-block;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	margin: 10px;
+	height: 30vh;
+	width: 30vh;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 30vh;
+    text-align: center;
+    overflow:hidden;
+    background-color: white;
+	border: 1px solid rgb(255, 153, 0);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.f_label:hover
+{
+    background-color: rgb(214, 64, 0);
+	color: white;
+	border:  1px solid rgb(214, 64, 0);
+}
+pre
+{
+	font-family: monospace;
+	width: 40%;
+	height: 90%;
+	position: absolute;
+	right: 1%;
+	top: 1%;
+	border: 1px dotted black;
+	overflow: scroll;
+	padding: 5px;
+}
