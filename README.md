@@ -22,4 +22,4 @@ Original image from [wikimedia commons](https://commons.wikimedia.org/wiki/File:
 
 After pixelization:
 
-![Moscow Metro, big pixels](MosMetro_Fonvizinskaya_01-2017.jpg/800px-MosMetro_Fonvizinskaya_01-2017.jpg.svg)
+![Moscow Metro, big pixels](MosMetro_Fonvizinskaya_01-2017.svg)
