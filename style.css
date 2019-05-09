@@ -9,11 +9,35 @@
 body
 {
 	width: 100%;
+	height: 100vh;
 }
-
-img, svg
+section
 {
-	position: absolute;
+	min-height: calc(100% - 270px);
+	padding: 10px;
+}
+header,footer
+{
+	background-color: #cfcfdd;
+	height: 110px;
+	width: 100%;
+	position: relative;
+	z-index:102;
+	left: 0px;
+	padding: 10px;
+}
+header
+{
+	margin-bottom: 25px;
+	border-bottom: 8px solid #09f;
+	top: 0px;
+}
+footer
+{
+	margin-top: 25px;
+	border-top: 8px solid #09f;
+	bottom: 0px;
+	text-align: right;
 }
 img
 {
@@ -23,23 +47,32 @@ svg
 {
 	z-index: 8;
 	opacity: 1;
+	position: absolute;
 }
-#main_view:hover svg
+svg:hover
 {
 	opacity:0;
 }
-#main_view:hover img
+svg:hover+img
 {
 	opacity:1;
 }
 #mainform
 {
-	width: 40%;
-	position: absolute;
-	right: 1%;
-	top: 1%;
+	width: 100%;
+	margin-top: 15px;
 	border: 1px dotted black;
 	padding: 5px;	
+}
+@media only screen and (min-width: 900px) {
+		#mainform
+		{
+			width: 40%;
+			margin-top: 0px;
+			position: absolute;
+			right: 1%;
+			top: 120px;
+		}
 }
 #mainform input, #mainform input
 {
@@ -68,33 +101,22 @@ input[type=file]
 	padding-left: 1rem;
 	padding-right: 1rem;
 	margin: 10px;
-	height: 30vh;
-	width: 30vh;
+	height: 50vh;
+	width: 50vh;
+	margin-left: calc(50% - 25vh);
     font-weight: 500;
     font-size: 14px;
-    line-height: 30vh;
+    line-height: 50vh;
     text-align: center;
     overflow:hidden;
     background-color: white;
-	border: 1px solid rgb(153, 255, 0);
+	border: 1px solid #09f;
     text-transform: uppercase;
     cursor: pointer;
 }
 .f_label:hover
 {
-    background-color: rgb(64, 214, 0);
+    background-color: #f09;
 	color: white;
-	border:  1px solid rgb(64, 214, 0);
-}
-pre
-{
-	font-family: monospace;
-	width: 40%;
-	height: 90%;
-	position: absolute;
-	right: 1%;
-	top: 1%;
-	border: 1px dotted black;
-	overflow: scroll;
-	padding: 5px;
+	border:  1px solid #f09;
 }

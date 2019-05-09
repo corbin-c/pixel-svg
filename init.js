@@ -115,7 +115,7 @@ async function interface_control()
 	control_form_1_19.addEventListener("click",function() {document.querySelector("#mainform").remove();main()} );
 	control_form_1.append(control_form_1_19);
 	
-	document.querySelector("body").append(control_form_1);
+	document.querySelector("#main_view").append(control_form_1);
 }
 async function main()
 {
@@ -131,8 +131,8 @@ async function main()
 	svg.setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink")
 	svg.setAttribute("id", "svg")	
 	main_view.innerHTML = "";
-	main_view.append(img);
 	main_view.append(svg);
+	main_view.append(img);
 	interface_control();
 	img.addEventListener('load', function () {pixelator(8,500)});
 }
