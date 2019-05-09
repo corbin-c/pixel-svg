@@ -76,15 +76,15 @@ input[type=file]
     text-align: center;
     overflow:hidden;
     background-color: white;
-	border: 1px solid rgb(255, 153, 0);
+	border: 1px solid rgb(153, 255, 0);
     text-transform: uppercase;
     cursor: pointer;
 }
 .f_label:hover
 {
-    background-color: rgb(214, 64, 0);
+    background-color: rgb(64, 214, 0);
 	color: white;
-	border:  1px solid rgb(214, 64, 0);
+	border:  1px solid rgb(64, 214, 0);
 }
 pre
 {
