@@ -14,7 +14,8 @@ body
 section
 {
 	min-height: calc(100% - 270px);
-	padding: 10px;
+	padding-left: 2%;
+	padding-right: 2%;
 }
 header,footer
 {
@@ -42,9 +43,12 @@ footer
 img
 {
 	opacity: 0;
+	width: 100%;
+	display: block;
 }
 svg
 {
+	width: 96%;
 	z-index: 8;
 	opacity: 1;
 	position: absolute;
@@ -65,12 +69,19 @@ svg:hover+img
 	padding: 5px;	
 }
 @media only screen and (min-width: 900px) {
+		img
+		{
+			width: 56.25%;
+		}
+		svg
+		{
+			width: 54%;
+		}
 		#mainform
 		{
 			width: 40%;
-			margin-top: 0px;
 			position: absolute;
-			right: 1%;
+			right: 2%;
 			top: 120px;
 		}
 }

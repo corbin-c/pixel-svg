@@ -175,11 +175,12 @@ async function pixelator(grid,width)
 	c = document.createElement('canvas');
 	c.setAttribute('id','can');
 	c.setAttribute('style','display:none;');
-	document.getElementById("svg").setAttributeNS(null, 'height', height);
-	document.getElementById("svg").setAttributeNS(null, 'width', width);
+	//document.getElementById("svg").setAttributeNS(null, 'height', height);
+	//document.getElementById("svg").setAttributeNS(null, 'width', width);
+	document.getElementById("svg").setAttributeNS(null, 'viewBox', "0 0 "+width+" "+height);
 	document.getElementById("svg").innerHTML = "";
-	img.width = width;
-	img.height = height;
+	//img.width = width;
+	//img.height = height;
 	img.setAttribute('style',"visibility:visible;");
 	c.width = width;
 	c.height = height;
