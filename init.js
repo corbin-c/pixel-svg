@@ -117,9 +117,9 @@ async function interface_control()
 	
 	document.querySelector("#main_view").append(control_form_1);
 }
-async function main()
+async function main(image=false)
 {
-	image = await input();
+	image = (image) ? image:await input();
 	main_view = document.querySelector("#main_view");
 	img = document.createElement('img');
 	img.setAttribute('src',image);
@@ -127,6 +127,8 @@ async function main()
 	img.setAttribute('id',"img");
 	img.setAttribute('style',"visibility:hidden;");
 	var svg = document.createElementNS(svgns, "svg");
+	svg.addEventListener("drop", async function(e) {e.preventDefault();main(await read(e.dataTransfer.files[0]))});
+	svg.addEventListener("dragover", function(e) {e.preventDefault();});
 	svg.setAttribute("xmlns", svgns)	
 	svg.setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink")
 	svg.setAttribute("id", "svg")	
