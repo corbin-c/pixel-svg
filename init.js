@@ -148,18 +148,62 @@ function read(what)
 		reader.readAsDataURL(what);
 	})
 }
-
+function rgb_to_hsv(rgb_array)
+{
+	var h = d = 0;
+	var r = rgb_array[0]/255;
+	var g = rgb_array[1]/255;
+	var b = rgb_array[2]/255;
+	var rgb_min = Math.min(r,Math.min(g,b));
+	var rgb_max = Math.max(r,Math.max(g,b));
+	if (rgb_min == rgb_max)
+	{
+		return [0,0,rgb_min];
+	}
+	if (r == rgb_min)
+	{
+		d = g-b;
+		h = 3;
+	}
+	else
+	{
+		if (b == rgb_min)
+		{
+			h = 1;
+			d = r-g;
+		}
+		else
+		{
+			h = 5;
+			d = b-r;
+		}
+	}
+	h = 255*(h - d/(rgb_max - rgb_min))/6;
+	return [h,255*(rgb_max - rgb_min)/rgb_max,255*rgb_max];
+}
 function filter_pix(pix_array,param)
 {
-	var diff = Math.abs(param.rgb[0] - pix_array[0]);
-		diff += Math.abs(param.rgb[1] - pix_array[1]);
-		diff += Math.abs(param.rgb[2] - pix_array[2]);
-	result = (diff/3 < param.threshold) ? pix_array:false;
-	return result;
+	if (param.threshold > 254)
+	{
+		return true;
+	}
+	else
+	{
+		pix_array = rgb_to_hsv(pix_array)
+		var i = 0;
+		for (i=0;i<param.rgb.length;i++)
+		{
+			if (Math.abs(param.rgb[i] - pix_array[i]) > param.threshold)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }
 function filter_param()
 {
-	return {threshold:parseInt(document.querySelector("#targetthresh").value)*2.55,rgb:hex_to_rgb(document.querySelector("#targetcolor").value)}
+	return {threshold:parseInt(document.querySelector("#targetthresh").value)*2.55,rgb:rgb_to_hsv(hex_to_rgb(document.querySelector("#targetcolor").value))}
 }
 function hex_to_rgb(hex)
 {
@@ -168,21 +212,13 @@ function hex_to_rgb(hex)
 }
 async function pixelator(grid,width)
 {
-	//var grid = 6;
-	//var width = 800;
-	//var grid = document.getElementById("targetgrid").value;
-	//var width = document.getElementById("targetwidth").value;
 	var img =  document.getElementById("img");
 	var height = (width/img.width)*img.height
 	c = document.createElement('canvas');
 	c.setAttribute('id','can');
 	c.setAttribute('style','display:none;');
-	//document.getElementById("svg").setAttributeNS(null, 'height', height);
-	//document.getElementById("svg").setAttributeNS(null, 'width', width);
 	document.getElementById("svg").setAttributeNS(null, 'viewBox', "0 0 "+width+" "+height);
 	document.getElementById("svg").innerHTML = "";
-	//img.width = width;
-	//img.height = height;
 	img.setAttribute('style',"visibility:visible;");
 	c.width = width;
 	c.height = height;
@@ -196,11 +232,6 @@ async function pixelator(grid,width)
 		while (x < width)
 		{
 				pix = ctx.getImageData(x, y, grid, grid);
-				/*if (pix.data[3] >= 0)
-				//if ((pix.data[0] > 100) && (pix.data[2] < 128))
-				{
-						draw([x/grid,y/grid,pix.data],grid);
-				}*/
 				if (filter_pix(pix.data,parameters))
 				{
 					draw([x/grid,y/grid,pix.data],grid);	
@@ -226,11 +257,11 @@ function draw(matrix,grid)
 		if (color[3] != 255)
 		{
 			rect.setAttributeNS(null, 'opacity', color[3]/255);
-			//rect.setAttributeNS(null, 'stroke-opacity', color[3]/255);
+			rect.setAttributeNS(null, 'stroke-opacity', color[3]/255);
 		}
 		color = "rgb("+color[0]+","+color[1]+","+color[2]+")";
 		rect.setAttributeNS(null, 'fill', color);
-		//rect.setAttributeNS(null, 'stroke', color);
+		rect.setAttributeNS(null, 'stroke', color);
 		document.getElementById("svg").appendChild(rect);
 	}
 }
