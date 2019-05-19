@@ -229,43 +229,49 @@ async function pixelator(grid,width)
 	y = 0;
 	x = 0;
 	var parameters = filter_param();
-	while (y < height)
-	{
-		while (x < width)
+	var pixel_worker = new Worker('worker.js');
+	pix = ctx.getImageData(x, y, grid, grid);
+	to_draw = [];
+	pixel_worker.postMessage({x:x,y:y,pix_data:pix.data,filter:parameters,grid:grid})
+	pixel_worker.onmessage = function(e)
+	{ 
+		if (e.data.y < height)
 		{
-				pix = ctx.getImageData(x, y, grid, grid);
-				if (filter_pix(pix.data,parameters))
-				{
-					draw([x/grid,y/grid,pix.data],grid);	
-				}
-			x = x+grid;
+			if (e.data.x < width)
+			{
+				x = e.data.x + grid
+			}
+			else
+			{
+				x = 0;
+				y = e.data.y + grid
+			}
+			pix = ctx.getImageData(x, y, grid, grid);
+			pixel_worker.postMessage({x:x,y:y,pix_data:pix.data,filter:parameters,grid:grid})
 		}
-		x = 0;
-		await incr_wait(0,0);
-		y = y+grid;
+		else
+		{
+			c.remove();
+			var now2 = (window.performance.now() / 1000).toFixed(3);
+			console.log("ELAPSED :", now2-now)
+		}
+		if (e.data.element)
+		{
+			draw([e.data.element])
+		}
 	}
-	c.remove();
-	var now2 = (window.performance.now() / 1000).toFixed(3);
-	console.log("ELAPSED :", now2-now)
 }
-function draw(matrix,grid)
+function draw(elements)
 {
-	var color = matrix[2]
-	if (color[3] != 0)
-	{	
-		var rect = document.createElementNS(svgns, 'rect');
-		rect.setAttributeNS(null, 'x', matrix[0]*grid);
-		rect.setAttributeNS(null, 'y', matrix[1]*grid);
-		rect.setAttributeNS(null, 'height', grid);
-		rect.setAttributeNS(null, 'width', grid);
-		if (color[3] != 255)
+	var j = 0;
+	for (j=0;j<elements.length;j++)
+	{
+		element = elements[j];
+		var rect = document.createElementNS(svgns, element.element);
+		for (i in element.attributes)
 		{
-			rect.setAttributeNS(null, 'opacity', color[3]/255);
-			rect.setAttributeNS(null, 'stroke-opacity', color[3]/255);
+			rect.setAttributeNS(null, i, element.attributes[i]);
 		}
-		color = "rgb("+color[0]+","+color[1]+","+color[2]+")";
-		rect.setAttributeNS(null, 'fill', color);
-		rect.setAttributeNS(null, 'stroke', color);
 		document.getElementById("svg").appendChild(rect);
 	}
 }
