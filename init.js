@@ -2,7 +2,8 @@ var svgns = 'http://www.w3.org/2000/svg';
 var def_grid = 8;
 var def_width = 500;
 
-function output(filename, data, type) {
+function output(filename, data, type)
+{
     var blob = new Blob([data], {type: type});
 	var elem = window.document.createElement('a');
 	elem.href = window.URL.createObjectURL(blob);
@@ -212,6 +213,7 @@ function hex_to_rgb(hex)
 }
 async function pixelator(grid,width)
 {
+	var now = (window.performance.now() / 1000).toFixed(3);
 	var img =  document.getElementById("img");
 	var height = (width/img.width)*img.height
 	c = document.createElement('canvas');
@@ -243,6 +245,8 @@ async function pixelator(grid,width)
 		y = y+grid;
 	}
 	c.remove();
+	var now2 = (window.performance.now() / 1000).toFixed(3);
+	console.log("ELAPSED :", now2-now)
 }
 function draw(matrix,grid)
 {
