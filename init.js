@@ -182,26 +182,6 @@ function rgb_to_hsv(rgb_array)
 	h = 255*(h - d/(rgb_max - rgb_min))/6;
 	return [h,255*(rgb_max - rgb_min)/rgb_max,255*rgb_max];
 }
-function filter_pix(pix_array,param)
-{
-	if (param.threshold > 254)
-	{
-		return true;
-	}
-	else
-	{
-		pix_array = rgb_to_hsv(pix_array)
-		var i = 0;
-		for (i=0;i<param.rgb.length;i++)
-		{
-			if (Math.abs(param.rgb[i] - pix_array[i]) > param.threshold)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-}
 function filter_param()
 {
 	return {threshold:parseInt(document.querySelector("#targetthresh").value)*2.55,rgb:rgb_to_hsv(hex_to_rgb(document.querySelector("#targetcolor").value))}
@@ -213,7 +193,6 @@ function hex_to_rgb(hex)
 }
 async function pixelator(grid,width)
 {
-	var now = (window.performance.now() / 1000).toFixed(3);
 	var img =  document.getElementById("img");
 	var height = (width/img.width)*img.height
 	c = document.createElement('canvas');
@@ -231,7 +210,6 @@ async function pixelator(grid,width)
 	var parameters = filter_param();
 	var pixel_worker = new Worker('worker.js');
 	pix = ctx.getImageData(x, y, grid, grid);
-	to_draw = [];
 	pixel_worker.postMessage({x:x,y:y,pix_data:pix.data,filter:parameters,grid:grid})
 	pixel_worker.onmessage = function(e)
 	{ 
@@ -252,8 +230,6 @@ async function pixelator(grid,width)
 		else
 		{
 			c.remove();
-			var now2 = (window.performance.now() / 1000).toFixed(3);
-			console.log("ELAPSED :", now2-now)
 		}
 		if (e.data.element)
 		{
