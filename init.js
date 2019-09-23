@@ -2,8 +2,8 @@ const svgns = "http://www.w3.org/2000/svg";
 const def_grid = 8;
 const def_width = 500;
 function output(filename, data, type) {
-  var blob = new Blob([data], {type: type});
-  var elem = window.document.createElement("a");
+  let blob = new Blob([data], {type: type});
+  let elem = window.document.createElement("a");
   elem.href = window.URL.createObjectURL(blob);
   elem.download = filename;        
   document.body.appendChild(elem);
@@ -138,7 +138,7 @@ async function main(image=false) {
   //img.setAttribute("style","display:none;");
   img.setAttribute("id","img");
   img.setAttribute("style","visibility:hidden;");
-  var svg = document.createElementNS(svgns, "svg");
+  let svg = document.createElementNS(svgns, "svg");
   svg.addEventListener("drop", async function(e) {
     e.preventDefault();
     main(await read(e.dataTransfer.files[0]))
@@ -155,7 +155,7 @@ async function main(image=false) {
 }
 function read(what) {
   return new Promise(function(resolve,reject) {
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.addEventListener("load", function() {
       resolve(this.result)
     });
@@ -163,12 +163,12 @@ function read(what) {
   })
 }
 function rgb_to_hsv(rgb_array) {
-  var h = d = 0;
-  var r = rgb_array[0]/255;
-  var g = rgb_array[1]/255;
-  var b = rgb_array[2]/255;
-  var rgb_min = Math.min(r,Math.min(g,b));
-  var rgb_max = Math.max(r,Math.max(g,b));
+  let h = d = 0;
+  let r = rgb_array[0]/255;
+  let g = rgb_array[1]/255;
+  let b = rgb_array[2]/255;
+  let rgb_min = Math.min(r,Math.min(g,b));
+  let rgb_max = Math.max(r,Math.max(g,b));
   if (rgb_min == rgb_max) {
     return [0,0,rgb_min];
   }
@@ -196,15 +196,15 @@ function filter_param() {
   }
 }
 function hex_to_rgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? [ parseInt(result[1], 16),
                       parseInt(result[2], 16),
                       parseInt(result[3], 16) ]
                   :null;
 }
 async function pixelator(grid,width) {
-  var img =  document.getElementById("img");
-  var height = (width/img.width)*img.height
+  let img =  document.getElementById("img");
+  let height = (width/img.width)*img.height
   c = document.createElement("canvas");
   c.setAttribute("id","can");
   c.setAttribute("style","display:none;");
@@ -214,12 +214,12 @@ async function pixelator(grid,width) {
   img.setAttribute("style","visibility:visible;");
   c.width = width;
   c.height = height;
-  var ctx = c.getContext("2d");
+  let ctx = c.getContext("2d");
   ctx.drawImage(img,0,0,width,height);
   y = 0;
   x = 0;
-  var parameters = filter_param();
-  var pixel_worker = new Worker("worker.js");
+  let parameters = filter_param();
+  let pixel_worker = new Worker("worker.js");
   pix = ctx.getImageData(x, y, grid, grid);
   pixel_worker.postMessage(
     { x:x,
@@ -252,10 +252,10 @@ async function pixelator(grid,width) {
   }
 }
 function draw(elements) {
-  var j = 0;
+  let j = 0;
   for (j=0;j<elements.length;j++) {
     element = elements[j];
-    var rect = document.createElementNS(svgns, element.element);
+    let rect = document.createElementNS(svgns, element.element);
     for (i in element.attributes) {
       rect.setAttributeNS(null, i, element.attributes[i]);
     }

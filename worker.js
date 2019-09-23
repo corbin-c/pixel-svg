@@ -62,6 +62,7 @@ function virtual_draw(matrix,grid) {
   }
 }
 onmessage = function(e) {
+  console.log(e);
   if (filter_pix(e.data.pix_data,e.data.filter)) {
     postMessage({element:virtual_draw([e.data.x/e.data.grid,e.data.y/
       e.data.grid,e.data.pix_data],e.data.grid),x:e.data.x,y:e.data.y});
