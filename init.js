@@ -17,7 +17,7 @@ function input() {
   form_1_1.setAttribute("id","l_if");
   form_1_1.setAttribute("for","input_file");
   form_1.append(form_1_1);
-  form_1_1.innerText = "Drag"n"drop";
+  form_1_1.innerText = "Drag'n'drop";
   form_1_3 = document.createElement("input");
   form_1_3.setAttribute("type","file");
   form_1_3.setAttribute("id","input_file");
